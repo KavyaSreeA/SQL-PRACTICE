@@ -1,0 +1,230 @@
+Sure — here’s the full **copy-paste version of `LEARNING_LOG.md`** (no download needed).
+
+You can paste this directly into your GitHub repo.
+
+---
+
+# SQL Learning Log — INSERT • NULL • UPDATE
+
+This repository log documents progress, mistakes, corrections, and key learning insights.
+
+---
+
+## 📘 Part 1 — Mistake Analysis Summary
+
+SQL Learning Progress — Mistake Analysis (INSERT • NULL • UPDATE)
+
+This document records my mistake patterns, corrections, and lessons learned while practicing SQL data modification statements. The goal is to build clean query habits and avoid real-world data loss issues.
+
+Topics Covered
+
+* INSERT INTO
+* NULL handling
+* IS NULL / IS NOT NULL
+* UPDATE (single + multiple rows)
+* UPDATE with conditions
+* Multi-row INSERT
+* Auto-increment awareness
+
+---
+
+1. INSERT Statement — Mistake Patterns & Fixes
+
+Mistake: Missing `INTO` and table name
+Wrong:
+INSERT CustomerName, City, Country VALUES(...)
+
+Correct:
+INSERT INTO Customers (CustomerName, City, Country)
+VALUES (...)
+
+Lesson: Always include
+
+* INTO
+* table name
+* column list inside parentheses
+
+---
+
+Mistake: Inserting values without specifying columns
+Wrong:
+INSERT INTO Customers VALUES (...)
+
+Risk:
+
+* breaks if table structure changes
+* fails if auto-increment exists
+
+Correct (safe):
+
+INSERT INTO Customers
+(CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES (...)
+
+Lesson: ALWAYS specify column names in INSERT.
+
+---
+
+Mistake: Mixing SELECT + INSERT
+Wrong:
+SELECT CustomerName, Country VALUES(...)
+
+Correct:
+INSERT INTO Customers (CustomerName, Country)
+VALUES (...)
+
+Lesson:
+INSERT adds rows — SELECT retrieves rows.
+
+---
+
+Mistake: Multi-row insert without column names
+
+Correct:
+
+INSERT INTO Customers
+(CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES (...), (...)
+
+Lesson: All rows share same column order.
+
+---
+
+Auto-Increment Understanding
+
+CustomerID was NOT manually inserted — correct behavior.
+Rule: Do NOT insert values into auto-increment keys.
+
+---
+
+2. NULL & IS NULL — Mistake Patterns & Fixes
+
+Core Rule
+NULL cannot be compared using = or <>
+
+Wrong:
+WHERE Address = NULL
+
+Correct:
+WHERE Address IS NULL
+
+Wrong:
+WHERE ContactName <> NULL
+
+Correct:
+WHERE ContactName IS NOT NULL
+
+---
+
+Mistake: Missing FROM clause
+Wrong:
+SELECT Customers WHERE Address IS NULL
+
+Correct:
+SELECT * FROM Customers WHERE Address IS NULL
+
+Lesson:
+SELECT requires:
+
+SELECT columns FROM table WHERE condition
+
+---
+
+NULL Concept Lessons
+
+* NULL means “no value stored”
+* NOT the same as
+
+  * zero
+  * empty string
+  * blank spaces
+
+---
+
+3. UPDATE Statement — Mistake Patterns & Fixes
+
+Mistake: Semicolon before WHERE (dangerous)
+
+Wrong:
+
+UPDATE Customers
+SET ContactName = 'Emma';
+WHERE CustomerID = 3;
+
+Effect: First statement updated ALL rows
+
+Correct:
+
+UPDATE Customers
+SET ContactName = 'Emma'
+WHERE CustomerID = 3;
+
+Lesson: Never end UPDATE before WHERE.
+
+---
+
+Mistake: Updating without table name
+
+Wrong:
+UPDATE CustomerName SET ...
+
+Correct:
+UPDATE Customers
+SET CustomerName = ...
+
+---
+
+Mistake: Updating ALL rows accidentally
+
+UPDATE Customers
+SET City = 'Rome';
+
+Effect: every record becomes Rome
+
+Lesson: Always confirm WHERE before UPDATE.
+
+---
+
+Safe Workflow Habit
+
+1. Run SELECT with same WHERE
+2. Verify affected rows
+3. Then run UPDATE
+
+---
+
+Mistake: Wrong field meaning change
+
+Changing Country → City value is logically invalid.
+
+Lesson: SQL will not protect meaning — developer must.
+
+---
+
+UPDATE Multiple Columns — Correct Pattern
+
+UPDATE Customers
+SET City = 'Madrid',
+  ContactName = 'Carlos Ruiz'
+WHERE Country = 'Spain'
+AND CustomerID > 10;
+
+---
+
+UPDATE with NULL condition
+
+UPDATE Customers
+SET PostalCode = '00000'
+WHERE PostalCode IS NULL;
+
+---
+
+Key Takeaways
+
+✔ Always specify columns in INSERT
+✔ Use IS NULL / IS NOT NULL
+✔ UPDATE requires table name
+✔ Double-check WHERE before updating
+✔ Avoid accidental full-table updates
+✔ Think about real-world data meaning
+
