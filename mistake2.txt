@@ -1,0 +1,41 @@
+SELECT City , Country , CustomerName 
+FROM Customers 
+WHERE NAME = ALEX 
+CITY = LONDON 
+COUNTRY = UK;
+❌ Problems
+You used SELECT instead of INSERT
+
+NAME column doesn’t exist
+
+Missing INSERT INTO
+
+Missing VALUES
+
+Strings not in quotes
+
+Missing commas / AND
+
+You remembered what data, but not how to add data — totally normal.
+
+✅ Correct INSERT
+INSERT INTO Customers (CustomerName, City, Country)
+VALUES ('Alex', 'London', 'UK');
+
+
+❌ Q4 — UPDATE syntax
+
+Your answer:
+
+UPDATE Salary 
+SET Salary = 45000
+WHERE CustomerID = 2;
+
+❌ Issue
+
+UPDATE must reference table, not column
+
+✅ Correct
+UPDATE Customers
+SET Salary = 45000
+WHERE CustomerID = 2;
