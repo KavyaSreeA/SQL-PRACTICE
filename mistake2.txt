@@ -39,3 +39,25 @@ UPDATE must reference table, not column
 UPDATE Customers
 SET Salary = 45000
 WHERE CustomerID = 2;
+
+
+Your answer:
+
+INSERT (Name , City , Country) 
+VALUE ('Mia','Toronto','Canada');
+
+❌ Problems
+
+Missing INTO Customers
+
+Column name should be CustomerName, not Name
+
+Keyword is VALUES, not VALUE
+
+✅ Correct version
+INSERT INTO Customers (CustomerName, City, Country)
+VALUES ('Mia', 'Toronto', 'Canada');
+
+
+👉 Important: you chose INSERT correctly — that’s progress.
+This is now just syntax polish. 
