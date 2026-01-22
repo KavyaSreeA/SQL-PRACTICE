@@ -1,0 +1,202 @@
+# SQL Learning Log 🚀
+
+This repository tracks my **SQL learning journey**, focusing on real mistakes I made, why they happened, and how I fixed them.  
+The goal is **conceptual clarity + precision**, not just memorizing syntax.
+
+---
+
+## ✅ Topics Covered
+
+- SELECT, WHERE
+- AND / OR / NOT
+- INSERT, UPDATE
+- NULL handling
+- ORDER BY
+- INNER JOIN
+- LEFT JOIN
+- Basic string functions (`LENGTH`)
+- Tie-breaking logic with `ORDER BY`
+
+---
+
+## ❌ Common Mistakes I Made (and Fixes)
+
+### 1️⃣ Column Name Confusion (Very Frequent)
+**Mistake**
+```sql
+SELECT Name FROM Customers;
+
+
+Problem
+
+Column does not exist (Name ≠ CustomerName)
+
+Fix
+
+SELECT CustomerName FROM Customers;
+
+
+Lesson
+
+SQL does NOT guess column names. One wrong name = wrong query.
+
+2️⃣ Forgetting Quotes for Text Values
+
+Mistake
+
+WHERE Country = India;
+
+
+Fix
+
+WHERE Country = 'India';
+
+
+Lesson
+
+Text values ALWAYS need single quotes.
+
+3️⃣ UPDATE Syntax Errors
+
+Mistake
+
+UPDATE Salary SET Salary = 50000;
+
+
+Fix
+
+UPDATE Customers
+SET Salary = 50000
+WHERE CustomerID = 6;
+
+
+Lesson
+
+UPDATE always starts with the table name, not the column.
+
+4️⃣ Incorrect NULL Checks
+
+Mistake
+
+WHERE Salary = NULL;
+
+
+Fix
+
+WHERE Salary IS NULL;
+
+
+Lesson
+
+NULL is not a value — it must be checked using IS NULL / IS NOT NULL.
+
+5️⃣ AND / OR Logic Without Parentheses
+
+Mistake
+
+WHERE Country = 'India' OR Country = 'USA' AND Salary > 40000;
+
+
+Fix
+
+WHERE Country IN ('India','USA')
+AND Salary > 40000;
+
+
+Lesson
+
+AND runs before OR.
+Use parentheses or IN to control logic.
+
+6️⃣ Misusing NOT
+
+Mistake
+
+WHERE <> (City = 'Delhi');
+
+
+Fix
+
+WHERE City <> 'Delhi';
+-- or
+WHERE NOT (City = 'Delhi');
+
+
+Lesson
+
+<> compares values.
+NOT wraps a full condition.
+
+7️⃣ INNER JOIN Syntax Errors (Logic Was Correct)
+
+Mistake
+
+INNER JOINS Order
+ON c.CustomerID = o.Customer.ID
+
+
+Fix
+
+INNER JOIN Orders o
+ON c.CustomerID = o.CustomerID;
+
+
+Lesson
+
+JOIN logic was right — mistakes were mechanical (names & spelling).
+
+8️⃣ LEFT JOIN Misconception
+
+Mistake
+
+LEFT JOIN Orders o
+...
+WHERE o.Amount IS NOT NULL OR o.Amount IS NULL;
+
+
+Fix
+
+SELECT c.CustomerName, o.Amount
+FROM Customers c
+LEFT JOIN Orders o
+ON c.CustomerID = o.CustomerID;
+
+
+Lesson
+
+LEFT JOIN already keeps NULL rows.
+A WHERE condition on the right table can cancel LEFT JOIN.
+
+9️⃣ JOIN Without ON Condition
+
+Mistake
+
+FROM Customers
+INNER JOIN Orders;
+
+
+Fix
+
+INNER JOIN Orders
+ON Customers.CustomerID = Orders.CustomerID;
+
+
+Lesson
+
+JOIN without ON = Cartesian product (wrong).
+
+🔟 String Length & Ordering Logic
+
+Mistake
+
+Didn’t know how to resolve ties
+
+Fix
+
+ORDER BY LENGTH(CITY) ASC, CITY ASC
+FETCH FIRST 1 ROWS ONLY;
+
+
+Lesson
+
+Tie-breaking requires secondary ORDER BY.
